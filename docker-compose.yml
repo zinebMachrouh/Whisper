@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  php:
+    image: php:8.2.4-fpm
+    container_name: my-laravel-app-php
+    volumes:
+      - ./application:/var/www/Whisper
+    working_dir: /var/www/Whisper
+    ports:
+      - "80:80" 
+    networks:
+      - laravel-net
+
+  postgres:
+    image: postgres:latest
+    container_name: Whisper
+    environment:
+      POSTGRES_DB: whisper
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - laravel-net
+
+networks:
+  laravel-net:
+
+volumes:
+  pg-data:
