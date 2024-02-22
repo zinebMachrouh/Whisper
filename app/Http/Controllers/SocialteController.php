@@ -38,35 +38,6 @@ class SocialteController extends Controller
             dd("something went wrong! " . $th->getMessage());
         }
     }
-    // public function redirectToGoogle()
-    // {
-    //     return Socialite::driver('google')->redirect();
-    // }
-
-    // public function handleGoogleCallback()
-    // {
-    //     try {
-    //         $user = Socialite::driver('google')->user();
-
-    //         $findUser = User::where('social_id', $user->id)->first();
-
-    //         if ($findUser) {
-    //             Auth::login($findUser);
-    //             return response()->json($findUser);
-    //         } else {
-    //             $newUser = User::create([
-    //                 'name' => $user->name,
-    //                 'email' => $user->id,
-    //                 'social_type' => 'google',
-    //                 'password' => Hash::make('my-google'),
-    //             ]);
-    //             Auth::login($newUser);
-    //             return response()->json($newUser);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'An error occurred while processing the request.'], 500);
-    //     }
-    // }
 
     public function redirectToFacebook()
     {
