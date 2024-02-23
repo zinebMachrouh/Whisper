@@ -37,9 +37,10 @@ return [
         'redirect' => 'http://localhost/auth/google/callback',
     ],
     'facebook' => [
-        'client_id' => env('FACEBOOK_CLIENT_ID'),
-        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => '/auth/google/callback',
+        'client_id' => '422877546843732',
+        'client_secret' => '9831a75be0e7ec2a1ef7336b410f4468',
+        'redirect' => 'http://localhost/auth/facebook/callback',
     ],
+
 
 ];

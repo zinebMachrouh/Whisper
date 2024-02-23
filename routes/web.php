@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
-use App\Livewire\Chat\Index;
+use App\Http\Controllers\SocialteController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
@@ -40,3 +40,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::get('/auth/google', [SocialteController::class,'redirectToGoogle'])->name('google');
+Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCallback'])->name('google.test');
+
+Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->name('facebook');
+Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
