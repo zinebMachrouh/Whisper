@@ -22,6 +22,11 @@ class ProfileController extends Controller
         return view('profile.edit', compact('user'));
     }
 
+    public function updatePage(Request $request): View{
+        $user = $request->user();
+        return view('profile.partials.update-profile-information-form', compact('user'));
+    }
+
     /**
      * Update the user's profile information.
      */
