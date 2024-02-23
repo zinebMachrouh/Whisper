@@ -6,6 +6,17 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "redirects":[]
+    "redirects": [
+      {
+        "source": "/index.php",
+        "destination": "/index.php",
+        "type": 301
+      },
+      {
+        "source": "/",
+        "destination": "/index.php",
+        "type": 301
+      }
+    ]
   }
 }
