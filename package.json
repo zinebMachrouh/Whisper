@@ -16,6 +16,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "firebase": "^10.8.0",
         "laravel-echo": "^1.16.0",
         "pusher-js": "^8.4.0-rc2",
         "recorder-js": "^1.0.7"
