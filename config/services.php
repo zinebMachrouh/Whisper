@@ -31,26 +31,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'github' => [
-        'client_id' => env('GITHUB_CLIENT_ID'),
-        'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => '/auth/github/callback',
-        // 'redirect' => 'http://localhost/laravel-socialite/public/login/github/callback',
-
+    'google' => [
+        'client_id' => '1098797192020-9kju3sr5lcct7ifee6mpvofq3ubk31cj.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'http://localhost/auth/google/callback',
     ],
 
     'facebook' => [
-        'client_id' => env('FACEBOOK_CLIENT_ID'),
-        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => '/auth/facebook/callback',
-        // 'redirect' => 'http://localhost/laravel-socialite/public/login/facebook/callback',
+        'client_id' => '422877546843732',
+        'client_secret' => '9831a75be0e7ec2a1ef7336b410f4468',
+        'redirect' => 'http://localhost/auth/facebook/callback',
     ],
-
-    'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'http://127.0.0.1:8000/auth/google/call-back',
-      
-    ]
 
 ];

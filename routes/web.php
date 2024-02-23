@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-
-
+use App\Http\Controllers\SocialteController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
+use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,18 +32,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// //google 
-// Route::get('auth/google', [LoginController::class, 'redirect'])->name('google-auth');
-// Route::get('auth/google', [LoginController::class, 'handleGoogleCallback']);
+Route::get('/auth/google', [SocialteController::class,'redirectToGoogle'])->name('google');
+Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCallback'])->name('google.test');
 
-// //github 
-// Route::get('login/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.google');
-// Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
+Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->name('facebook');
+Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
 
-// //facebook 
-// Route::get('login/github', [LoginController::class, 'redirectToGithub'])->name('login.google');
-// Route::get('login/github/callback', [LoginController::class, 'handleGithubCallback']);
-
-
- 
 
