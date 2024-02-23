@@ -4,9 +4,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SocialteController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +23,6 @@ Route::get('/', function () {
 Route::get('/auth/redirect', [ProviderController::class, 'redirect']);
  
 Route::get('/auth/callback', [ProviderController::class, 'callback']);
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');

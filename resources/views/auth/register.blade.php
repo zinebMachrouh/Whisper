@@ -1,8 +1,9 @@
 <x-guest-layout>
-
-    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+<<<<<<<<< Temporary merge branch 1
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
+=========
     <a href="{{route('google')}}" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
         <div class="px-4 py-2">
             <svg class="w-6 h-6" viewBox="0 0 40 40">
@@ -31,7 +32,7 @@
             <x-text-input type="file" name="image" id="image" class="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300" required/>
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
-
+>>>>>>>>> Temporary merge branch 2
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -70,10 +71,11 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-
+<<<<<<<<< Temporary merge branch 1
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+=========
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-
+>>>>>>>>> Temporary merge branch 2
                 {{ __('Already registered?') }}
             </a>
 
@@ -83,3 +85,8 @@
         </div>
     </form>
 </x-guest-layout>
+<<<<<<<<< Temporary merge branch 1
+=========
+
+
+>>>>>>>>> Temporary merge branch 2

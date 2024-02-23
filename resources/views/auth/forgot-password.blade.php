@@ -1,7 +1,9 @@
 <x-guest-layout>
+<<<<<<<<< Temporary merge branch 1
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+=========
     <div class="mb-4 text-sm text-gray-600">
-
+>>>>>>>>> Temporary merge branch 2
         {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
     </div>
 
