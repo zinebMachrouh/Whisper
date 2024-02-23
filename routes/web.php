@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\SocialteController;
->>>>>>> 3d5a637899332cd546737a2e9ec1b9425f784baf
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,8 +30,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-<<<<<<< HEAD
-=======
 
 Route::get('/auth/google', [SocialteController::class,'redirectToGoogle'])->name('google');
 Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCallback'])->name('google.test');
@@ -43,4 +38,3 @@ Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->
 Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
 
 
->>>>>>> 3d5a637899332cd546737a2e9ec1b9425f784baf
