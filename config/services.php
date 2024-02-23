@@ -43,5 +43,4 @@ return [
         'redirect' => 'http://localhost/auth/facebook/callback',
     ],
 
-
 ];
