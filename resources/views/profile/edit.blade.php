@@ -5,42 +5,120 @@
 
         </h2>
     </x-slot>
-
-<!-- Invitation link : QR Code -->
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-            <div class="flex justify-between items-center">
-                <div class="flex flex-col">
-                    <div class="flex mt-4 items-center">
-                        <p id="ProfileURL" class="text-blue-600 mr-4 text-xs">{{$url}}</p>
-                        {{-- <svg onclick="CopyProfileLink()" class="cursor-pointer" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 11C6 8.17157 6 6.75736 6.87868 5.87868C7.75736 5 9.17157 5 12 5H15C17.8284 5 19.2426 5 20.1213 5.87868C21 6.75736 21 8.17157 21 11V16C21 18.8284 21 20.2426 20.1213 21.1213C19.2426 22 17.8284 22 15 22H12C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V11Z" stroke="#1C274C" stroke-width="1.5" />
-                            <path opacity="0.5" d="M6 19C4.34315 19 3 17.6569 3 16V10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H15C16.6569 2 18 3.34315 18 5" stroke="#1C274C" stroke-width="1.5" />
-                        </svg> --}}
-                        <svg  onclick="CopyProfileLink()" class="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg" width="24"  height="24"   viewBox="0 0 24 24"  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />  <line x1="16" y1="21" x2="16" y2="19" />  <line x1="19" y1="16" x2="21" y2="16" />  <line x1="3" y1="8" x2="5" y2="8" />  <line x1="8" y1="3" x2="8" y2="5" /></svg>
-                        <p id="CopiedMessage" class="hidden text-xs text-gray-400 p-1"> Copied </p>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <div class="flex mt-4 items-center">
+                            <p id="ProfileURL" class="text-blue-600 mr-4 text-xs">{{$url}}</p>
+                            <svg onclick="CopyProfileLink()" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z"/>
+                                <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+                                <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+                                <line x1="16" y1="21" x2="16" y2="19" />
+                                <line x1="19" y1="16" x2="21" y2="16" />
+                                <line x1="3" y1="8" x2="5" y2="8" />
+                                <line x1="8" y1="3" x2="8" y2="5" />
+                            </svg>
+                            <p id="CopiedMessage" class="hidden text-xs text-gray-400 p-1">Copied</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        {{ $qrCode }}
                     </div>
                 </div>
-                <div class="flex items-center">
-                    {{ $qrCode}}
+                <!-- Ajout du bouton pour ouvrir le modal -->
+                <button onclick="openQRScannerModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Scanner le code QR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour scanner le code QR -->
+    <div id="qrScannerModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Icone du scanner QR -->
+                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg font-medium text-gray-900" id="modal-title">
+                                Scanner le code QR
+                            </h3>
+                            <input type="file" accept="image/*" id="fileInput" class="mt-2">
+                            <!-- Ajout de l'input pour afficher le résultat du QR code -->
+                            <input type="text" id="qrCodeURL" class="mt-2 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onclick="openQRScannerModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Scanner le code QR</button>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    function CopyProfileLink() {
-        var profileLink = document.getElementById("ProfileURL");
-        navigator.clipboard.writeText(profileLink.innerText);
-        var copiedMessage = document.getElementById("CopiedMessage");
-        copiedMessage.classList.remove("hidden");
-        setTimeout(function() {
-            copiedMessage.classList.add("hidden");
-        }, 3000); // Le message "Copied !!" disparaîtra après 3 secondes (3000 ms)
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+    <script>
+        function CopyProfileLink() {
+            var profileLink = document.getElementById("ProfileURL");
+            navigator.clipboard.writeText(profileLink.innerText);
+            var copiedMessage = document.getElementById("CopiedMessage");
+            copiedMessage.classList.remove("hidden");
+            setTimeout(function() {
+                copiedMessage.classList.add("hidden");
+            }, 3000); // Le message "Copied !!" disparaîtra après 3 secondes (3000 ms)
+        }
+        function openQRScannerModal() {
+        var modal = document.getElementById("qrScannerModal");
+        modal.classList.remove("hidden");
     }
-</script>
+        const fileInput = document.getElementById('fileInput');
+        const resultDiv = document.getElementById('result');
+        const qrCodeURLInput = document.getElementById('qrCodeURL'); // Ajout de la référence à l'input QR code URL
+
+        fileInput.addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const image = new Image();
+                image.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    ctx.drawImage(image, 0, 0);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    if (code) {
+                        qrCodeURLInput.value = code.data; // Mettre à jour la valeur de l'input avec le résultat du code QR
+                        resultDiv.textContent = "Code QR détecté : " + code.data;
+                    } else {
+                        qrCodeURLInput.value = ""; // Effacer la valeur de l'input si aucun code QR n'est détecté
+                        resultDiv.textContent = "Aucun code QR trouvé dans l'image.";
+                    }
+                };
+                image.src = event.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+
 
 
     <div class="py-12">
@@ -66,11 +144,4 @@
     </div>
 </x-app-layout>
 
-<script>
-    function copyLink() {
-        var profileLink = document.getElementById("profileLink");
-        profileLink.select();
-        document.execCommand("copy");
-        alert("Le lien a été copié !");
-    }
-</script>
+
