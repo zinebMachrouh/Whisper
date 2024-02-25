@@ -34,6 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'image' => ['required'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -45,12 +46,18 @@ class RegisteredUserController extends Controller
             $file->move($path, $file_name);
             $validated['image'] = $path . '/' . $file_name;
         }
-        // dd($request->hasFile('image'));
-
+        $randomNumbers = mt_rand(1000, 9999);
+        
+        $username = $request->input('username');
+        
+        $uniqueIdentifier = $username . '#' . $randomNumbers;
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
             'image' => $request->image,
+            'identifiant_unique' => $uniqueIdentifier,
+            'identifiant' => $randomNumbers,
             'password' => Hash::make($request->password),
         ]);
 
