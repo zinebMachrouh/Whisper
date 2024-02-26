@@ -8,18 +8,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+
+
+    public function edit(Request $request)
     {
+        $url = $this->generateInvitationUrl();
+
+        $cachedQrCode = Cache::get('profile_qrcode_' . auth()->id());
+
+        if (!$cachedQrCode) {
+            $qrCode = QrCode::size(200)->generate($url);
+
+            Cache::put('profile_qrcode_' . auth()->id(), $qrCode, now()->addHour());
+        } else {
+            $qrCode = $cachedQrCode;
+        }
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'url' => $url,
+            'qrCode' => $qrCode,
         ]);
     }
+
+    private function generateInvitationUrl()
+    {
+        $cachedUrl = Cache::get('profile_link_' . auth()->id());
+
+        if (!$cachedUrl) {
+            $url = URL::temporarySignedRoute(
+                'profile.edit',
+                now()->addHour(),
+                ['profile_user' => auth()->id()]
+            );
+
+            Cache::put('profile_link_' . auth()->id(), $url, now()->addHour());
+        } else {
+            $url = $cachedUrl;
+        }
+
+        return $url;
+    }
+
+
 
     /**
      * Update the user's profile information.
@@ -57,4 +96,9 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+
+
+
 }
