@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profilePage', [ProfileController::class, 'updatePage'])->name('profile.updatePage');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/link', [ProfileController::class, 'showLink'])->name('profile.link');
     Route::get('/profile/password', [PasswordController::class, 'editPassword'])->name('profile.password');
     Route::put('/profile/password', [PasswordController::class, 'update'])->name('password.update');
 });

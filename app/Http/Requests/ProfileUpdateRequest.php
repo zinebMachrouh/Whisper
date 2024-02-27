@@ -19,8 +19,6 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'image' => ['required'],
-            'oldPasssword' => ['required', 'string', 'min:8'],
-            'newPassword' => ['required','string','min:8'],
             'identifiant' => ['required'],
             'username' => ['required'],
         ];

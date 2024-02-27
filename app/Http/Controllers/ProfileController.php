@@ -22,6 +22,12 @@ class ProfileController extends Controller
         return view('profile.edit', compact('user'));
     }
 
+    public function showLink(Request $request): View
+    {
+        $user = $request->user();
+        return view('profile.partials.link', compact('user'));
+    }
+
     public function updatePage(Request $request): View{
         $user = $request->user();
         return view('profile.partials.update-profile-information-form', compact('user'));
@@ -47,10 +53,9 @@ class ProfileController extends Controller
             $file->move($path, $file_name);
             $validated['image'] = $path . '/' . $file_name;
         }
-        // dd($request->user()->password, $request->oldPasssword);
-        if($request->oldPassword == $request->user()->password){
-
-        }
+        // if(isset($request->identifiant)){
+        //     return redirect()->back()->with('messageError', 'that identifaiant already exist');
+        // }
 
         $validated['identifiant_unique'] = $request->username . '#' . $request->identifiant;
     
