@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img src="../../../../Whisper/resources/images/logo.png" alt="logo">
+                        <img src=".Whisper/resources/images/logo.png" alt="logo">
                     </a>
                 </div>
 
@@ -20,6 +20,7 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @include('components.accpeter')
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -50,10 +51,12 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                <!-- confirmation dun ami -->
+
                 <span class="inline-block relative mx-4">
                     <img class="h-10 w-10 rounded-3xl" src="" alt="img">
                     <span class="absolute top-0 right-0 block h-2.5 w-2.5 transform -translate-y-1/2 translate-x-1/2 rounded-full ring-2 ring-white bg-green-400"></span>
-                  </span>
+                    </span>
             </div>
 
             <!-- Hamburger -->
