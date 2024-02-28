@@ -24,6 +24,8 @@ class User extends Authenticatable
         'identifiant_unique',
         'username',
         'image',
+        'age',
+        'aboutMe',
         'identifiant',
         'password',
         'social_type',

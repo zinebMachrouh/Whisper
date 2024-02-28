@@ -18,8 +18,14 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
-        
         return view('profile.edit', compact('user'));
+    }
+
+    public function profile(Request $request, $id): view
+    {
+        $user = $request->user();
+        $friend = User::find($id);
+        return view('profile.profile', compact('friend', 'user'));
     }
 
     public function showLink(Request $request): View

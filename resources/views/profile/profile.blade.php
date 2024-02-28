@@ -20,16 +20,18 @@
             <div x-show="openSettings" @click.away="openSettings = false" class="bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl" style="display: none;">
                 <div class="py-2 border-b">
                     <p class="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
-                    <a href="{{route('profile.updatePage')}}">
-                        <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200">
-                            <span class="text-sm text-gray-700">Update Profile</span>
-                        </button>
-                    </a>
-                    <a href="{{route('profile.password')}}">
-                        <button class="w-full flex items-center py-1.5 px-6 space-x-2 hover:bg-gray-200">
-                            <span class="text-sm text-gray-700">change your password</span>
-                        </button>
-                    </a>
+                    <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        <span class="text-sm text-gray-700">Share Profile</span>
+                    </button>
+                    <button class="w-full flex items-center py-1.5 px-6 space-x-2 hover:bg-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                        </svg>
+                        <span class="text-sm text-gray-700">Block friend</span>
+                    </button>
                     <button class="w-full flex items-center py-1.5 px-6 space-x-2 hover:bg-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -52,17 +54,17 @@
             <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" class="w-full h-full rounded-tl-lg rounded-tr-lg">
         </div>
         <div class="flex flex-col items-center -mt-20">
-            <img src="{{asset('' . $user->image)}}" class="w-40 border-4 border-white rounded-full">
+            <img src="{{asset('' . $friend->image)}}" class="w-40 border-4 border-white rounded-full">
             <div class="flex items-center space-x-2 mt-2">
-                <p class="text-2xl">{{$user->name}}</p>
+                <p class="text-2xl">{{$friend->name}}</p>
                 <span class="bg-blue-500 rounded-full p-1" title="Verified">
                     <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-100 h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </span>
             </div>
-            <p class="text-gray-700">{{$user->username}}</p>
-            <p class="text-sm text-gray-500">{{$user->identifiant_unique}}</p>
+            <p class="text-gray-700">{{$friend->username}}</p>
+            <p class="text-sm text-gray-500">{{$friend->identifiant_unique}}</p>
         </div>
         <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div class="flex items-center space-x-4 mt-2">
@@ -87,19 +89,19 @@
             <ul class="mt-2 text-gray-700">
                 <li class="flex border-y py-2">
                     <span class="font-bold w-24">Full name:</span>
-                    <span class="text-gray-700">{{$user->name}}</span>
+                    <span class="text-gray-700">{{$friend->name}}</span>
                 </li>
                 <li class="flex border-b py-2">
                     <span class="font-bold w-24">Birthday:</span>
-                    <span class="text-gray-700">{{$user->age}}</span>
+                    <span class="text-gray-700">{{$friend->age}}</span>
                 </li>
                 <li class="flex border-b py-2">
                     <span class="font-bold w-24">Joined:</span>
-                    <span class="text-gray-700">{{$user->created_at}}</span>
+                    <span class="text-gray-700">{{$friend->created_at}}</span>
                 </li>
                 <li class="flex border-b py-2">
                     <span class="font-bold w-24">Email:</span>
-                    <span class="text-gray-700">{{$user->email}}</span>
+                    <span class="text-gray-700">{{$friend->email}}</span>
                 </li>
             </ul>
         </div>
@@ -107,7 +109,7 @@
     <div class="flex flex-col w-full 2xl:w-2/3">
         <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
             <h4 class="text-xl text-gray-900 font-bold">About</h4>
-            <p class="mt-2 text-gray-700">{{$user->aboutMe}}</p>
+            <p class="mt-2 text-gray-700">{{$friend->aboutMe}}</p>
         </div>
     </div>
 </x-app-layout>
