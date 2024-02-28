@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialteController;
 use Illuminate\Support\Facades\Route;
+use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,9 @@ Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCall
 
 Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->name('facebook');
 Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
+
+Route::get('messanger', function(){
+    return view('messanger');
+});
 
 
