@@ -1,149 +1,80 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+    <div class="p-relative h-screen" style="background-color: #15202b;">
+        <div class="flex justify-start">
 
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="flex justify-between items-center">
-                    <div class="flex flex-col">
-                        <div class="flex mt-4 items-center">
-                            <p id="ProfileURL" class="text-blue-600 mr-4 text-xs">{{$url}}</p>
-                            <svg onclick="CopyProfileLink()" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z"/>
-                                <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-                                <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-                                <line x1="16" y1="21" x2="16" y2="19" />
-                                <line x1="19" y1="16" x2="21" y2="16" />
-                                <line x1="3" y1="8" x2="5" y2="8" />
-                                <line x1="8" y1="3" x2="8" y2="5" />
-                            </svg>
-                            <p id="CopiedMessage" class="hidden text-xs text-gray-400 p-1">Copied</p>
+            <div class="px-4 py-2 mx-2">
+                <a href="{{route('dashboard')}}" class=" text-2xl font-medium rounded-full text-blue-400 hover:bg-gray-800 hover:text-blue-300 float-right">
+                    <svg class="m-2 h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <g>
+                            <path d="M20 11H7.414l4.293-4.293c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0l-6 6c-.39.39-.39 1.023 0 1.414l6 6c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L7.414 13H20c.553 0 1-.447 1-1s-.447-1-1-1z">
+                            </path>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+
+            <main role="main">
+                <div class="flex" style="width: 1100px;">
+                    @include('components.sidebar')
+                    <section class=" mt-11 w-3/5 border border-y-0 border-gray-800" style="max-width:600px;">
+                   
+                        <!-- User card-->
+                        <div>
+                            <div class="w-full bg-cover bg-no-repeat bg-center" style="height: 200px; background-image: {{asset('' . $user->image)}}">
+                                <img class="opacity-0 w-full h-full" src="{{asset('' . $user->image)}}" alt="photo profile">
+                            </div>
+                            <div class="p-4">
+                                <div class="relative flex w-full">
+                                    <!-- Avatar -->
+                                    <div class="flex flex-1">
+                                        <div style="margin-top: -6rem;">
+                                            <div style="height:9rem; width:9rem;" class="md rounded-full relative avatar">
+                                                <img style="height:9rem; width:9rem;" class="md rounded-full relative border-4 border-gray-900" src="{{ asset('' . $user->image) }}" alt="">
+                                                <div class="absolute"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Follow Button -->
+                                    <div class="flex flex-col text-right">
+                                        <form action="{{route('profile.updatePage')}}" method="GET">
+                                            @csrf
+                                            <button class="flex justify-center  max-h-max whitespace-nowrap focus:outline-none  focus:ring  rounded max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 hover:border-blue-800 flex items-center hover:shadow-lg font-bold py-2 px-4 rounded-full mr-0 ml-auto">
+                                                Edit Profile
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Profile info -->
+                                <div class="space-y-1 justify-center w-full mt-3 ml-3">
+                                    <!-- User basic-->
+                                    <div>
+                                        <h2 class="text-xl leading-6 font-bold text-white">{{$user->name}}</h2>
+                                        <p class="text-sm leading-5 font-medium text-gray-600">{{$user->identifiant_unique}}</p>
+                                    </div>
+                                    <!-- Description and others -->
+                                    <div class="mt-3">
+                                        <div class="text-gray-600 flex">
+                                            <span class="flex mr-2"><svg viewBox="0 0 24 24" class="h-5 w-5 paint-icon"><g><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path><path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path></g></svg> <a href="https://ricardoribeirodev.com/personal/" target="#" class="leading-5 ml-1 text-blue-400">{{$user->email}}</a></span>
+                                            <span class="flex mr-2"><svg viewBox="0 0 24 24" class="h-5 w-5 paint-icon"><g><path d="M19.708 2H4.292C3.028 2 2 3.028 2 4.292v15.416C2 20.972 3.028 22 4.292 22h15.416C20.972 22 22 20.972 22 19.708V4.292C22 3.028 20.972 2 19.708 2zm.792 17.708c0 .437-.355.792-.792.792H4.292c-.437 0-.792-.355-.792-.792V6.418c0-.437.354-.79.79-.792h15.42c.436 0 .79.355.79.79V19.71z"></path><circle cx="7.032" cy="8.75" r="1.285"></circle><circle cx="7.032" cy="13.156" r="1.285"></circle><circle cx="16.968" cy="8.75" r="1.285"></circle><circle cx="16.968" cy="13.156" r="1.285"></circle><circle cx="12" cy="8.75" r="1.285"></circle><circle cx="12" cy="13.156" r="1.285"></circle><circle cx="7.032" cy="17.486" r="1.285"></circle><circle cx="12" cy="17.486" r="1.285"></circle></g></svg> <span class="leading-5 ml-1">{{$user->created_at}}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="border-gray-800">
                         </div>
-                    </div>
-                    <div class="flex items-center">
-                        {{ $qrCode }}
-                    </div>
+
+                        <ul class="list-none">
+                        <li>
+            
+                        </li>
+                        </ul>
+                    </section>
+
+
+                    
                 </div>
-
-                <button onclick="openQRScannerModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Scanner le code QR</button>
-            </div>
-        </div>
-    </div>
-
-  <!-- Modal pour scanner le code QR -->
-<div id="qrScannerModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <!-- Icone du scanner QR -->
-                        <svg class="text-red-500 w-7 h-7"
-                            xmlns="http://www.w3.org/2000/svg" width="24"  height="24"  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <rect x="4" y="4" width="6" height="6" rx="1" />  <line x1="7" y1="17" x2="7" y2="17.01" />  <rect x="14" y="4" width="6" height="6" rx="1" />  <line x1="7" y1="7" x2="7" y2="7.01" />  <rect x="4" y="14" width="6" height="6" rx="1" />  <line x1="17" y1="7" x2="17" y2="7.01" />  <line x1="14" y1="14" x2="17" y2="14" />  <line x1="20" y1="14" x2="20" y2="14.01" />  <line x1="14" y1="14" x2="14" y2="17" />  <line x1="14" y1="20" x2="17" y2="20" />  <line x1="17" y1="17" x2="20" y2="17" />  <line x1="20" y1="17" x2="20" y2="20" /></svg>
-                    </div>
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg font-medium text-gray-900" id="modal-title">
-                            Scanner le code QR
-                        </h3>
-                        <input type="file" accept="image/*" id="fileInput" class="mt-2">
-                        <!-- Ajout de l'input pour afficher le résultat du QR code -->
-                        <input type="text" id="qrCodeURL" class="mt-2 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <!-- Bouton pour fermer le modal -->
-                <button onclick="closeQRScannerModal()" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                    Fermer
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
-    <script>
-        function CopyProfileLink() {
-            var profileLink = document.getElementById("ProfileURL");
-            navigator.clipboard.writeText(profileLink.innerText);
-            var copiedMessage = document.getElementById("CopiedMessage");
-            copiedMessage.classList.remove("hidden");
-            setTimeout(function() {
-                copiedMessage.classList.add("hidden");
-            }, 3000);
-        }
-        function openQRScannerModal() {
-        var modal = document.getElementById("qrScannerModal");
-        modal.classList.remove("hidden");
-    }
-        const fileInput = document.getElementById('fileInput');
-        const resultDiv = document.getElementById('result');
-        const qrCodeURLInput = document.getElementById('qrCodeURL'); // Ajout de la référence à l'input QR code URL
-
-        fileInput.addEventListener('change', handleFile);
-        function handleFile(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function(event) {
-                const image = new Image();
-                image.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    ctx.drawImage(image, 0, 0);
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
-                    if (code) {
-                        qrCodeURLInput.value = code.data; // Mettre à jour la valeur de l'input avec le résultat du code QR
-                        resultDiv.textContent = "Code QR détecté : " + code.data;
-                    } else {
-                        qrCodeURLInput.value = ""; // Effacer la valeur de l'input si aucun code QR n'est détecté
-                        resultDiv.textContent = "Aucun code QR trouvé dans l'image.";
-                    }
-                };
-                image.src = event.target.result;
-            };
-
-            reader.readAsDataURL(file);
-        }
-        function closeQRScannerModal() {
-        var modal = document.getElementById("qrScannerModal");
-        modal.classList.add("hidden");
-    }
-    </script>
-
-
-
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
+            </main>
         </div>
     </div>
 </x-app-layout>

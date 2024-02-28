@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->string('unique_id')->nullable();
+            // $table->string('unique_id')->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('identifiant_unique')->unique();
+            $table->string('username');
+            $table->integer('identifiant')->unique();
             $table->string('password')->nullable();
             $table->string('social_id')->nullable();
             $table->string('social_type')->nullable();
