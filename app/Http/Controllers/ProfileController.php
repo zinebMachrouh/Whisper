@@ -59,6 +59,14 @@ class ProfileController extends Controller
     }
 
 
+  
+
+
+
+
+
+
+
 
     /**
      * Update the user's profile information.
