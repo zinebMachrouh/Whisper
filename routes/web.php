@@ -48,3 +48,10 @@ Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCall
 
 Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->name('facebook');
 Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
+
+Route::get('messanger', function(){
+    return view('messanger');
+});
+
+Route::get('/profile/profile{id}', [ProfileController::class, 'profile'])->name('profile.profile');
+
