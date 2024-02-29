@@ -1,7 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+    <div class="p-relative h-screen" style="background-color: #15202b;">
+        <div class="flex justify-start">
 
         </h2>
     </x-slot>
@@ -24,10 +23,16 @@
                             </svg>
                             <p id="CopiedMessage" class="hidden text-xs text-gray-400 p-1">Copied</p>
                         </div>
-                    </div>
-                    <div class="flex items-center">
-                        {{ $qrCode }}
-                    </div>
+
+                        <ul class="list-none">
+                        <li>
+            
+                        </li>
+                        </ul>
+                    </section>
+
+
+                    
                 </div>
 
                 <button onclick="openQRScannerModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700">Scanner le code QR</button>

@@ -21,6 +21,7 @@
 <link href="{{ asset('css/chatify/style.css') }}" rel="stylesheet" />
 <link href="{{ asset('css/chatify/'.$dark_mode.'.mode.css') }}" rel="stylesheet" />
 <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+        <link rel="shortcut icon" href="{{asset('logo.png')}}" type="image/x-icon">
 
 {{-- Setting messenger primary color to css --}}
 <style>

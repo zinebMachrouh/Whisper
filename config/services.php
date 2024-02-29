@@ -36,7 +36,6 @@ return [
         'client_secret' => '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',
         'redirect' => 'http://localhost/auth/google/callback',
     ],
-
     'facebook' => [
         'client_id' => '422877546843732',
         'client_secret' => '9831a75be0e7ec2a1ef7336b410f4468',

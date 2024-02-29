@@ -67,12 +67,6 @@
                     <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
                 </nav>
             </nav>
-            {{-- Internet connection --}}
-            <div class="internet-connection">
-                <span class="ic-connected">Connected</span>
-                <span class="ic-connecting">Connecting...</span>
-                <span class="ic-noInternet">No internet access</span>
-            </div>
         </div>
 
         {{-- Messaging area --}}

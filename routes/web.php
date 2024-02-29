@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\SocialteController;
 use Illuminate\Support\Facades\Route;
-use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,17 +22,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/auth/redirect', [ProviderController::class, 'redirect']);
+ 
+Route::get('/auth/callback', [ProviderController::class, 'callback']);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profilePage', [ProfileController::class, 'updatePage'])->name('profile.updatePage');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/link', [ProfileController::class, 'showLink'])->name('profile.link');
+    Route::get('/profile/password', [PasswordController::class, 'editPassword'])->name('profile.password');
+    Route::put('/profile/password', [PasswordController::class, 'update'])->name('password.update');
 });
 
 require __DIR__.'/auth.php';
+
 
 Route::get('/auth/google', [SocialteController::class,'redirectToGoogle'])->name('google');
 Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCallback'])->name('google.test');
@@ -42,5 +53,5 @@ Route::get('messanger', function(){
     return view('messanger');
 });
 
-Route::get('/profile/profile{id}', [ProfileController::class, 'profile'])->name('profile.profile');
+Route::get('/user/{id}', [ProfileController::class, 'profile'])->name('profile.profile');
 
