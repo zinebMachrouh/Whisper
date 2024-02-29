@@ -7,8 +7,11 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ProfileController extends Controller
 {
@@ -17,8 +20,23 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
-        return view('profile.edit', compact('user'));
+        $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), now()->addMinutes(15), function() {
+            return URL::temporarySignedRoute(
+                'profile.edit',
+                now()->addHour(),
+                ['profile_user' => auth()->id()]
+            );
+        });
+
+        $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addMinutes(15), function () use ($url) {
+            return QrCode::size(200)->generate($url);
+        });
+
+        return view('profile.edit', [
+            'user' => $request->user(),
+            'url' => $url,
+            'qrCode' => $qrCode,
+        ]);
     }
 
     public function profile(Request $request, $id): view

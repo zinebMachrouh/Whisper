@@ -33,6 +33,39 @@ class User extends Authenticatable
 
     ];
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+    public function friends()
+    {
+        return $this->hasMany(Friend::class, 'user_id');
+    }
+
+    public function friendOf()
+    {
+        return $this->hasMany(Friend::class, 'friend_id');
+    }
+
+    public function invitationsSent()
+    {
+        return $this->hasMany(Invitation::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

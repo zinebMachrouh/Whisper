@@ -49,9 +49,9 @@ class RegisteredUserController extends Controller
             $validated['image'] = $path . '/' . $file_name;
         }
         $randomNumbers = mt_rand(1000, 9999);
-        
+
         $username = $request->input('username');
-        
+
         $uniqueIdentifier = $username . '#' . $randomNumbers;
         $user = User::create([
             'name' => $request->name,
