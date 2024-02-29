@@ -28,12 +28,6 @@ class ProfileController extends Controller
         return view('profile.profile', compact('friend', 'user'));
     }
 
-    public function showLink(Request $request): View
-    {
-        $user = $request->user();
-        return view('profile.partials.link', compact('user'));
-    }
-
     public function updatePage(Request $request): View{
         $user = $request->user();
         return view('profile.partials.update-profile-information-form', compact('user'));
