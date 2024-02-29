@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialteController;
+use App\Http\Controllers\PusherController;
 use Illuminate\Support\Facades\Route;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 
@@ -30,16 +31,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get('/auth/google', [SocialteController::class,'redirectToGoogle'])->name('google');
-Route::get('/auth/google/callback', [SocialteController::class,'handleGoogleCallback'])->name('google.test');
+Route::get('/auth/google', [SocialteController::class, 'redirectToGoogle'])->name('google');
+Route::get('/auth/google/callback', [SocialteController::class, 'handleGoogleCallback'])->name('google.test');
 
-Route::get('/auth/facebook', [SocialteController::class,'redirectToFacebook'])->name('facebook');
-Route::get('/auth/facebook/callback', [SocialteController::class,'handleFacebookCallback']);
+Route::get('/auth/facebook', [SocialteController::class, 'redirectToFacebook'])->name('facebook');
+Route::get('/auth/facebook/callback', [SocialteController::class, 'handleFacebookCallback']);
 
-Route::get('messanger', function(){
+Route::get('messanger', function () {
     return view('messanger');
 });
 
 
+Route::post('/sockets/connect', [PusherController::class, 'broadcast']);
+
+
+// Route::post('/send-message', 'MessageController@sendMessage');

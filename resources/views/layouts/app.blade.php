@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
@@ -33,5 +35,19 @@
             </main>
         </div>
 
+
+        <script>
+ // Enable pusher logging - don't include this in production
+ Pusher.logToConsole = true;
+
+var pusher = new Pusher('8ea0cba203ad17af4b02', {
+  cluster: 'us3'
+});
+
+var channel = pusher.subscribe('my-channel');
+channel.bind('my-event', function(data) {
+  alert(JSON.stringify(data));
+});
+        </script>
     </body>
 </html>

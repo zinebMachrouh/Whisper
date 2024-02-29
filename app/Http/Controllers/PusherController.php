@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Events\PusherBroadcast;
+use App\Events\playgroundEvent;
 
 class PusherController extends Controller
 {
@@ -14,9 +14,10 @@ class PusherController extends Controller
 
     public function broadcast(Request $request)
     {
-        broadcast(new PusherBroadcast($request->get('message')))->toOthers();
+        broadcast(new playgroundEvent($request->get('message')))->toOthers();
 
         return view('broadcast', ['message' => $request->get('message')]);
+
     }
 
     public function receive(Request $request)
