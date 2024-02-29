@@ -1,4 +1,8 @@
 <x-guest-layout>
+
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+        @csrf
+
     <a href="{{route('google')}}" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
         <div class="px-4 py-2">
             <svg class="w-6 h-6" viewBox="0 0 40 40">
@@ -19,12 +23,12 @@
         <span class="w-5/6 px-4 py-3 font-bold text-center">Sign in with Facebook</span>
     </a>
 
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
         {{-- img --}}
         <div>
-            <x-input-label for="name" :value="__('Image')" />
-            <x-text-input type="file" name="image" :value="__('Name')" class="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300" />
+            <x-input-label for="image" :value="__('Image')" />
+            <x-text-input type="file" name="image" id="image" class="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300" required/>
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
         <!-- Name -->
@@ -34,6 +38,27 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        <!-- username -->
+        <div>
+            <x-input-label for="username" :value="__('username')" />
+            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        </div>
+
+        <!-- aboutMe -->
+        <div>
+            <x-input-label for="aboutMe" :value="__('Tell as about you')" />
+            <x-text-input id="aboutMe" class="block mt-1 w-full" type="text" name="aboutMe" :value="old('aboutMe')" required autofocus autocomplete="aboutMe" />
+            <x-input-error :messages="$errors->get('aboutMe')" class="mt-2" />
+        </div>
+
+        <!-- age -->
+        <div>
+            <x-input-label for="age" :value="__('Birthday')" />
+            <x-text-input id="age" class="block mt-1 w-full" type="date" name="age" :value="old('age')" required autofocus autocomplete="age" />
+            <x-input-error :messages="$errors->get('age')" class="mt-2" />
+        </div>
+        
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
@@ -75,5 +100,3 @@
         </div>
     </form>
 </x-guest-layout>
-
-

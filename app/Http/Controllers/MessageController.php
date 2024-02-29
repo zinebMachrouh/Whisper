@@ -13,7 +13,7 @@ class MessageController extends Controller
 {
     public function sendMessage(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'recipient_id' => 'required|exists:users,id',
             'message' => 'required|string|max:255',

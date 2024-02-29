@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,23 +21,22 @@ class ProfileController extends Controller
 
     public function edit(Request $request)
     {
-        $url = $this->generateInvitationUrl();
+        $user = $request->user();
+        return view('profile.edit', compact('user'));
+    }
 
-        $cachedQrCode = Cache::get('profile_qrcode_' . auth()->id());
+    public function profile(Request $request, $id): view
+    {
+        $user = $request->user();
+        $friend = User::find($id);
+        return view('profile.profile', compact('friend', 'user'));
+    }
 
-        if (!$cachedQrCode) {
-            $qrCode = QrCode::size(200)->generate($url);
 
-            Cache::put('profile_qrcode_' . auth()->id(), $qrCode, now()->addHour());
-        } else {
-            $qrCode = $cachedQrCode;
-        }
 
-        return view('profile.edit', [
-            'user' => $request->user(),
-            'url' => $url,
-            'qrCode' => $qrCode,
-        ]);
+    public function updatePage(Request $request): View{
+        $user = $request->user();
+        return view('profile.partials.update-profile-information-form', compact('user'));
     }
 
     private function generateInvitationUrl()
@@ -65,15 +65,30 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // dd($request);
+        $validated = $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
+        // dd($request->hasFile('image'));
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file_extension = $file->getClientOriginalExtension();
+            $file_name = time() . '.' . $file_extension;
+            $path = 'imgs/';
+            $file->move($path, $file_name);
+            $validated['image'] = $path . '/' . $file_name;
+        }
+        // if(isset($request->identifiant)){
+        //     return redirect()->back()->with('messageError', 'that identifaiant already exist');
+        // }
+
+        $validated['identifiant_unique'] = $request->username . '#' . $request->identifiant;
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect()->back();
     }
 
     /**
