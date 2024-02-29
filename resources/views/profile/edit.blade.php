@@ -5,6 +5,7 @@
 
         </h2>
     </x-slot>
+<!--URL and QRcode:-->
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -68,7 +69,7 @@
         </div>
     </div>
 </div>
-
+<!-- Js Copy Profile and scann Qr code -->
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
     <script>
         function CopyProfileLink() {
@@ -80,6 +81,7 @@
                 copiedMessage.classList.add("hidden");
             }, 3000);
         }
+//	function lecture d'une image Qr code :
         function openQRScannerModal() {
         var modal = document.getElementById("qrScannerModal");
         modal.classList.remove("hidden");

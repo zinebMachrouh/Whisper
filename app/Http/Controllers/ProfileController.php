@@ -18,19 +18,50 @@ class ProfileController extends Controller
      */
 
 
+    //  public function edit(Request $request)
+    //  {
+    //      $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), function() {
+    //          return URL::temporarySignedRoute(
+    //              'profile.edit',
+    //              now()->addHour(),
+    //              ['profile_user' => auth()->id()]
+    //          );
+    //      });
+
+    //      $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addHour(), function () use ($url) {
+    //          return QrCode::size(200)->generate($url);
+    //      });
+
+    //      return view('profile.edit', [
+    //          'user' => $request->user(),
+    //          'url' => $url,
+    //          'qrCode' => $qrCode,
+    //      ]);
+    //  }
+
+    //  private function generateTemporaryUrl($cacheKey, $callback)
+    //  {
+    //      if (Cache::has($cacheKey)) {
+    //          return Cache::get($cacheKey);
+    //      } else {
+    //          $url = $callback();
+    //          Cache::put($cacheKey, $url, now()->addHour());
+    //          return $url;
+    //      }
+    //  }
     public function edit(Request $request)
     {
-        $url = $this->generateInvitationUrl();
+        $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), now()->addMinutes(15), function() {
+            return URL::temporarySignedRoute(
+                'profile.edit',
+                now()->addHour(),
+                ['profile_user' => auth()->id()]
+            );
+        });
 
-        $cachedQrCode = Cache::get('profile_qrcode_' . auth()->id());
-
-        if (!$cachedQrCode) {
-            $qrCode = QrCode::size(200)->generate($url);
-
-            Cache::put('profile_qrcode_' . auth()->id(), $qrCode, now()->addHour());
-        } else {
-            $qrCode = $cachedQrCode;
-        }
+        $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addMinutes(15), function () use ($url) {
+            return QrCode::size(200)->generate($url);
+        });
 
         return view('profile.edit', [
             'user' => $request->user(),
@@ -39,36 +70,18 @@ class ProfileController extends Controller
         ]);
     }
 
-    private function generateInvitationUrl()
+    private function generateTemporaryUrl($cacheKey, $expires, $callback)
     {
-        $cachedUrl = Cache::get('profile_link_' . auth()->id());
-
-        if (!$cachedUrl) {
-            $url = URL::temporarySignedRoute(
-                'profile.edit',
-                now()->addHour(),
-                ['profile_user' => auth()->id()]
-            );
-
-            Cache::put('profile_link_' . auth()->id(), $url, now()->addHour());
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
         } else {
-            $url = $cachedUrl;
+            $url = $callback();
+            Cache::put($cacheKey, $url, $expires);
+            return $url;
         }
-
-        return $url;
     }
 
-
-  
-
-
-
-
-
-
-
-
-    /**
+/** /
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
