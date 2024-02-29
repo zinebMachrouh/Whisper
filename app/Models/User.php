@@ -18,7 +18,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'image', 'unique_id', 'email', 'password', 'social_id', 'social_type', 'gender', 'status'
+        'image',
+        'name',
+        'email',
+        'identifiant_unique',
+        'username',
+        'image',
+        'age',
+        'aboutMe',
+        'identifiant',
+        'password',
+        'social_type',
+        'social_id',
+
     ];
 
     public function messages()

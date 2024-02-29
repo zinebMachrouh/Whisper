@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -79,6 +79,17 @@ class ProfileController extends Controller
             Cache::put($cacheKey, $url, $expires);
             return $url;
         }
+    }
+
+/** /
+     * user profile :
+     */
+
+    public function profile(Request $request, $id): view
+    {
+        $user = $request->user();
+        $friend = User::find($id);
+        return view('profile.profile', compact('friend', 'user'));
     }
 
 /** /
