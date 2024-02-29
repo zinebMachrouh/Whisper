@@ -13,6 +13,10 @@ class PasswordController extends Controller
     /**
      * Update the user's password.
      */
+
+     public function editPassword(){
+        return view('profile.partials.update-password-form');
+     }
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validateWithBag('updatePassword', [

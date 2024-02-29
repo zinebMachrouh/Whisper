@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <body class="h-[70vh] overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
 
         <style>
