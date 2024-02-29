@@ -42,4 +42,5 @@ Route::get('messanger', function(){
     return view('messanger');
 });
 
+Route::get('/profile/profile{id}', [ProfileController::class, 'profile'])->name('profile.profile');
 
