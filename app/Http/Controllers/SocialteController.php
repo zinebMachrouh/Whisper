@@ -8,8 +8,6 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-
-
 class SocialteController extends Controller
 {
     public function redirectToGoogle()
