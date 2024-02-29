@@ -24,8 +24,10 @@ class SocialteController extends Controller
             if (!$user) {
                 $new_user = User::create([
                     'name' => $google_user->getName(),
+                    'username' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
                     'social_id' => $google_user->getId(),
+                    'image' => $google_user->getAvatar(),
                     'social_type' => 'google',
                 ]);
                 Auth::login($new_user);
