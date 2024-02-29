@@ -10,7 +10,7 @@
                 </svg>
             </a>
         </div>
-        
+
         <div x-data="{ openSettings: false }" class="absolute right-12 mt-4 rounded">
             <button @click="openSettings = !openSettings" class="border border-gray-400 p-2 rounded text-gray-300 hover:text-gray-300 bg-gray-100 bg-opacity-10 hover:bg-opacity-20" title="Settings">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">

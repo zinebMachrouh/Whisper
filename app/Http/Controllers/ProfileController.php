@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,11 +18,72 @@ class ProfileController extends Controller
      */
 
 
+    //  public function edit(Request $request)
+    //  {
+    //      $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), function() {
+    //          return URL::temporarySignedRoute(
+    //              'profile.edit',
+    //              now()->addHour(),
+    //              ['profile_user' => auth()->id()]
+    //          );
+    //      });
+
+    //      $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addHour(), function () use ($url) {
+    //          return QrCode::size(200)->generate($url);
+    //      });
+
+    //      return view('profile.edit', [
+    //          'user' => $request->user(),
+    //          'url' => $url,
+    //          'qrCode' => $qrCode,
+    //      ]);
+    //  }
+
+    //  private function generateTemporaryUrl($cacheKey, $callback)
+    //  {
+    //      if (Cache::has($cacheKey)) {
+    //          return Cache::get($cacheKey);
+    //      } else {
+    //          $url = $callback();
+    //          Cache::put($cacheKey, $url, now()->addHour());
+    //          return $url;
+    //      }
+    //  }
     public function edit(Request $request)
     {
-        $user = $request->user();
-        return view('profile.edit', compact('user'));
+        $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), now()->addMinutes(15), function() {
+            return URL::temporarySignedRoute(
+                'profile.edit',
+                now()->addHour(),
+                ['profile_user' => auth()->id()]
+            );
+        });
+
+        $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addMinutes(15), function () use ($url) {
+            return QrCode::size(200)->generate($url);
+        });
+
+        return view('profile.edit', [
+            'user' => $request->user(),
+            'url' => $url,
+            'qrCode' => $qrCode,
+        ]);
     }
+
+    private function generateTemporaryUrl($cacheKey, $expires, $callback)
+    {
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        } else {
+            $url = $callback();
+            Cache::put($cacheKey, $url, $expires);
+            return $url;
+        }
+    }
+
+/** /
+     * user profile :
+     */
 
     public function profile(Request $request, $id): view
     {
@@ -32,63 +92,20 @@ class ProfileController extends Controller
         return view('profile.profile', compact('friend', 'user'));
     }
 
-
-
-    public function updatePage(Request $request): View{
-        $user = $request->user();
-        return view('profile.partials.update-profile-information-form', compact('user'));
-    }
-
-    private function generateInvitationUrl()
-    {
-        $cachedUrl = Cache::get('profile_link_' . auth()->id());
-
-        if (!$cachedUrl) {
-            $url = URL::temporarySignedRoute(
-                'profile.edit',
-                now()->addHour(),
-                ['profile_user' => auth()->id()]
-            );
-
-            Cache::put('profile_link_' . auth()->id(), $url, now()->addHour());
-        } else {
-            $url = $cachedUrl;
-        }
-
-        return $url;
-    }
-
-
-
-    /**
+/** /
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        // dd($request);
-        $validated = $request->user()->fill($request->validated());
+        $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-        // dd($request->hasFile('image'));
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $file_extension = $file->getClientOriginalExtension();
-            $file_name = time() . '.' . $file_extension;
-            $path = 'imgs/';
-            $file->move($path, $file_name);
-            $validated['image'] = $path . '/' . $file_name;
-        }
-        // if(isset($request->identifiant)){
-        //     return redirect()->back()->with('messageError', 'that identifaiant already exist');
-        // }
-
-        $validated['identifiant_unique'] = $request->username . '#' . $request->identifiant;
 
         $request->user()->save();
 
-        return Redirect()->back();
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -111,8 +128,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
-
 
 
 
