@@ -32,8 +32,8 @@ return [
     ],
 
     'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'client_id' => '1098797192020-9kju3sr5lcct7ifee6mpvofq3ubk31cj.apps.googleusercontent.com',
+        'client_secret' => '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',
         'redirect' => 'http://localhost/auth/google/callback',
     ],
     'facebook' => [
