@@ -13,83 +13,38 @@ use Illuminate\Support\Facades\URL;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-
-
-    //  public function edit(Request $request)
-    //  {
-    //      $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), function() {
-    //          return URL::temporarySignedRoute(
-    //              'profile.edit',
-    //              now()->addHour(),
-    //              ['profile_user' => auth()->id()]
-    //          );
-    //      });
-
-    //      $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addHour(), function () use ($url) {
-    //          return QrCode::size(200)->generate($url);
-    //      });
-
-    //      return view('profile.edit', [
-    //          'user' => $request->user(),
-    //          'url' => $url,
-    //          'qrCode' => $qrCode,
-    //      ]);
-    //  }
-
-    //  private function generateTemporaryUrl($cacheKey, $callback)
-    //  {
-    //      if (Cache::has($cacheKey)) {
-    //          return Cache::get($cacheKey);
-    //      } else {
-    //          $url = $callback();
-    //          Cache::put($cacheKey, $url, now()->addHour());
-    //          return $url;
-    //      }
-    //  }
-    public function edit(Request $request)
+    public function profile(Request $request, $id)
     {
-        $url = $this->generateTemporaryUrl('profile_link_' . auth()->id(), now()->addMinutes(15), function() {
+        $user = $request->user();
+        $friend = User::find($id);
+
+        // Générer le lien d'invitation et le code QR
+        $url = $this->generateInvitationLink();
+        $qrCode = $this->generateQRCode($url);
+
+        return view('profile.profile', compact('friend', 'user', 'url', 'qrCode'));
+    }
+
+    private function generateInvitationLink()
+    {
+        $cacheKey = 'profile_link_' . auth()->id();
+
+        return Cache::remember($cacheKey, now()->addHour(), function () {
             return URL::temporarySignedRoute(
-                'profile.edit',
+                'chatify',
                 now()->addHour(),
                 ['profile_user' => auth()->id()]
             );
         });
+    }
 
-        $qrCode = Cache::remember('profile_qrcode_' . auth()->id(), now()->addMinutes(15), function () use ($url) {
+    private function generateQRCode($url)
+    {
+        $cacheKey = 'profile_qrcode_' . auth()->id();
+
+        return Cache::remember($cacheKey, now()->addHour(), function () use ($url) {
             return QrCode::size(200)->generate($url);
         });
-
-        return view('profile.edit', [
-            'user' => $request->user(),
-            'url' => $url,
-            'qrCode' => $qrCode,
-        ]);
-    }
-
-    private function generateTemporaryUrl($cacheKey, $expires, $callback)
-    {
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
-        } else {
-            $url = $callback();
-            Cache::put($cacheKey, $url, $expires);
-            return $url;
-        }
-    }
-
-/** /
-     * user profile :
-     */
-
-    public function profile(Request $request, $id): view
-    {
-        $user = $request->user();
-        $friend = User::find($id);
-        return view('profile.profile', compact('friend', 'user'));
     }
 
 /** /
@@ -117,9 +72,9 @@ class ProfileController extends Controller
         // }
 
         $validated['identifiant_unique'] = $request->username . '#' . $request->identifiant;
-    
+
         $request->user()->save();
-        
+
         return Redirect()->back();
     }
 
@@ -149,3 +104,4 @@ class ProfileController extends Controller
 
 
 }
+

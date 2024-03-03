@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 
 Route::get('/auth/redirect', [ProviderController::class, 'redirect']);
- 
+
 Route::get('/auth/callback', [ProviderController::class, 'callback']);
 
 Route::get('/dashboard', function () {
@@ -31,13 +31,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::get('/profilePage', [ProfileController::class, 'updatePage'])->name('profile.updatePage');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/link', [ProfileController::class, 'showLink'])->name('profile.link');
     Route::get('/profile/password', [PasswordController::class, 'editPassword'])->name('profile.password');
     Route::put('/profile/password', [PasswordController::class, 'update'])->name('password.update');
+
 });
 
 require __DIR__.'/auth.php';
@@ -54,4 +55,5 @@ Route::get('messanger', function(){
 });
 
 Route::get('/user/{id}', [ProfileController::class, 'profile'])->name('profile.profile');
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
